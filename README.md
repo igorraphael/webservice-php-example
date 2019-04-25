@@ -17,11 +17,11 @@ Rode o composer install, para gerar o autoload(PSR-4).
 composer install
 ```
 
-Importe o [db.sql](./db.sql)
+## Importe o [db.sql](./db.sql) para seu banco de dados.
 
 
 ## Uso 
-Utilize algum programa para enviar as requisições. #[Postman](https://www.getpostman.com/) é extramente bom e facil de utilizar.
+Utilize algum programa para enviar as requisições. [Postman](https://www.getpostman.com/) é extramente bom e facil de utilizar.
 
 ### Endpoint's 
 * **/webservice/todo/listar** - *GET* 

@@ -57,6 +57,15 @@ class Tarefa extends Model{
         endif;
     }
 
+
+    public function insertControlAccess($remoteIp, $userAgent, $requestMethod, $requestUri, $requestQuery, $requestStatus){
+        date_default_timezone_set('America/Sao_Paulo');//set timezone 
+        $dt_now = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO data_access_request (remote_ip, user_agent, request_method, request_uri, query_string, data_hora, request_status) VALUES('$remoteIp', '$userAgent', '$requestMethod', '$requestUri', '$requestQuery', '$dt_now', '$requestStatus')";
+        $insert = $this->con->query($sql);
+        $this->close; //close connection db.
+    }
+
 }
     
 

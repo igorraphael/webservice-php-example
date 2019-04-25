@@ -22,9 +22,17 @@ class todoController
      */
     public function listar()
     {
-        $return = $this->task->getAllTasks();
+        header("Access-Control-Allow-Origin: *");//teste CORS
+
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->controlAccess($_SERVER);//Control
+            $responseRequest = $this->task->getAllTasks();
+        }else{
+            //$this->controlAccess($_SERVER);//Control
+            $responseRequest = "Warning!!! Somente o método GET é aceito.";
+        }
         header("Content-Type: application/json");
-        echo json_encode($return);
+        echo json_encode($responseRequest);
     }
 
     /**
@@ -42,6 +50,7 @@ class todoController
                 if (!$this->checkPostData($nome_tarefa, $data_hora, $importancia, $obs)) {
                     $responseRequest = "Error!!! Parametros em branco/invalidos.";
                 } else {
+                    $this->controlAccess($_SERVER);//Control
                     $responseRequest = $this->task->insertNewTask($nome_tarefa, $data_hora, $importancia, $obs);
                 }
             } else {
@@ -67,6 +76,7 @@ class todoController
                     $id = $_REQUEST['id_tarefa'];
                     $status = $_REQUEST['status'];
                     if (is_numeric($id) && is_numeric($status)) {
+                        $this->controlAccess($_SERVER);//Control
                         $responseRequest = $this->task->updateStatusTask($id, $status); //recebe o retorno da funçao de atualizaçao.
                     } else {
                         $responseRequest = "Error!!! Valor do parametro não é aceito."; //$id nao e uma string numeric.
@@ -91,6 +101,7 @@ class todoController
                 } else {
                     $id_tarefa = $_REQUEST['id_tarefa'];
                     if (is_numeric($id_tarefa)) {
+                        $this->controlAccess($_SERVER);//Control
                         $responseRequest = $this->task->deleteTask($id_tarefa); //recebe o retorno da funçao de deletar.
                     } else {
                         $responseRequest = "Error!!! Valor do parametro não é aceito.";
@@ -142,6 +153,32 @@ class todoController
     public function validate($str)
     {
         return trim(addslashes($str));
+    }
+
+    /**
+     * function for print with <pre>
+     */
+    public function dump($var){
+        echo "<pre>";
+            print_r($var);
+        echo "</pre>";
+    }
+
+    /**
+     * Function for controll ips 
+     */
+    public function controlAccess($arrayServer){
+        if(!$arrayServer): //Apenas um debug para test.
+            echo "Voce não tem permissão, debug!";
+            die();
+        endif;
+        $remoteIp = $arrayServer['REMOTE_ADDR'];//ip remote request
+        $userAgent = explode(")", $arrayServer['HTTP_USER_AGENT']);//userAgent[0] - esta o name user agent.
+        $requestMethod = $arrayServer['REQUEST_METHOD'];//method (post, get, put..)
+        $requestUri = $arrayServer['REQUEST_URI'];//url request
+        $requestQuery = $arrayServer['QUERY_STRING'];//query request
+        $requestStatus = $arrayServer['REDIRECT_STATUS'];
+        $this->task->insertControlAccess($remoteIp, $userAgent[0], $requestMethod, $requestUri, $requestQuery, $requestStatus);
     }
 
 }

@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `data_access_request`
+--
+
+DROP TABLE IF EXISTS `data_access_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `data_access_request` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `remote_ip` varchar(15) NOT NULL,
+  `user_agent` varchar(45) NOT NULL,
+  `request_method` varchar(7) NOT NULL,
+  `request_uri` varchar(45) NOT NULL,
+  `query_string` varchar(45) NOT NULL,
+  `data_hora` datetime NOT NULL,
+  `request_status` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `data_access_request`
+--
+
+LOCK TABLES `data_access_request` WRITE;
+/*!40000 ALTER TABLE `data_access_request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `data_access_request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tarefas`
 --
 
@@ -52,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-04-23 16:28:31
+-- Dump completed on 2019-04-25 15:37:48
