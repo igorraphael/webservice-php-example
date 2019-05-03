@@ -22,10 +22,9 @@ class todoController
      */
     public function listar()
     {
-        header("Access-Control-Allow-Origin: *");//teste CORS
-
+        header("Access-Control-Allow-Origin: *");//CORS
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $this->controlAccess($_SERVER);//Control
+            //$this->controlAccess($_SERVER);//save data request in db
             $responseRequest = $this->task->getAllTasks();
         }else{
             //$this->controlAccess($_SERVER);//Control
@@ -40,6 +39,7 @@ class todoController
      */
     public function add()
     {
+        header("Access-Control-Allow-Origin: *");//CORS
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (array_key_exists("nome_tarefa", $_REQUEST) && array_key_exists("data_hora", $_REQUEST) && array_key_exists("importancia", $_REQUEST)) {
                 $nome_tarefa = $_REQUEST['nome_tarefa'];
@@ -92,9 +92,10 @@ class todoController
         echo json_encode($responseRequest);
     }
 
-    public function delete_task()
+    public function delete()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+        header("Access-Control-Allow-Origin: *");//CORS
+        if ($_SERVER['REQUEST_METHOD'] == "DELETE" || "POST") {
             if (array_key_exists("id_tarefa", $_REQUEST)) {
                 if (empty($_REQUEST['id_tarefa'])) {
                     $responseRequest = "Error!!! Parametros em branco/invalidos.";
